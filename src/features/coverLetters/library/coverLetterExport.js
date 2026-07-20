@@ -18,8 +18,6 @@ function itemSections(letter) {
     <section>
       <h2>${index + 1}. ${formatText(item?.title)}</h2>
       <p>${formatText(item?.content)}</p>
-      <p><strong>키워드 코드:</strong> ${formatText(item?.keywordCode)}</p>
-      <p><strong>사례 ID:</strong> ${formatText(item?.exampleCd)}</p>
     </section>`).join('');
 }
 
@@ -37,7 +35,6 @@ export function createCoverLetterHtml(letter = {}) {
     <p><strong>작성자:</strong> ${formatText(letter.authorName)}</p>
     <p><strong>작성일:</strong> ${formatText(letter.updatedAt ?? letter.createdAt)}</p>
     ${itemSections(letter)}
-    <p>본 문서는 브라우저 계약 목업에서 생성되었습니다.</p>
   </body>
 </html>`;
 }
@@ -48,8 +45,6 @@ export function createCoverLetterExcelHtml(letter = {}) {
     <td>${index + 1}</td>
     <td>${formatText(item?.title)}</td>
     <td>${formatText(item?.content)}</td>
-    <td>${formatText(item?.keywordCode)}</td>
-    <td>${formatText(item?.exampleCd)}</td>
   </tr>`).join('');
 
   return `<!doctype html>
@@ -65,10 +60,9 @@ export function createCoverLetterExcelHtml(letter = {}) {
       </tbody>
     </table>
     <table>
-      <thead><tr><th>순번</th><th>질문</th><th>내용</th><th>키워드 코드</th><th>사례 ID</th></tr></thead>
+      <thead><tr><th>순번</th><th>질문</th><th>내용</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <p>본 문서는 브라우저 계약 목업에서 생성되었습니다.</p>
   </body>
 </html>`;
 }

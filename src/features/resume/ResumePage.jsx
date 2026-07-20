@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PAGE_DESCRIPTIONS } from '../../routing/pageDescriptions';
 import { RepeatableSection } from './RepeatableSection';
 import { resumeService } from './resumeService';
 import './ResumePage.css';
@@ -179,7 +180,7 @@ export function ResumePage({ service = resumeService, onSaved }) {
       <header className="resume-page__header">
         <p className="resume-page__eyebrow">잡담 AI 이력서</p>
         <h1>이력서 작성</h1>
-        <p>나의 경험과 강점을 채용 담당자에게 명확하게 전달하세요.</p>
+        <p>{PAGE_DESCRIPTIONS.resume}</p>
       </header>
 
       <form aria-label="이력서 작성 양식" onSubmit={handleSubmit}>

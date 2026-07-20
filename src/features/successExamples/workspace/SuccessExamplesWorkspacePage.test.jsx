@@ -74,23 +74,23 @@ describe('SuccessExamplesWorkspacePage', () => {
     expect(screen.queryByRole('textbox', { name: /필요역량/ })).not.toBeInTheDocument();
   });
 
-  it('사례 keyword·master를 선택하고 DB 사례를 읽기 전용으로 보이며 STAR 옵션을 fixture 행에만 연다', async () => {
+  it('합격사례를 읽기 전용으로 보이며 STAR 옵션을 해당 사례에만 연다', async () => {
     const user = userEvent.setup();
 
     render(<SuccessExamplesWorkspacePage service={createInjectedService()} />);
     await advanceToExampleSelection(user);
 
-    await user.click(screen.getByRole('radio', { name: /계약 목업 사례 키워드 A/ }));
+    await user.click(screen.getByRole('radio', { name: '사례 키워드 A' }));
 
-    expect(screen.getByText('계약 목업 작성 단계 안내 A1')).toBeInTheDocument();
-    expect(screen.getByText('계약 목업 사례 본문 A1')).toBeInTheDocument();
+    expect(screen.getByText('작성 단계 안내 A1')).toBeInTheDocument();
+    expect(screen.getByText('사례 본문 A1')).toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: /사례 본문/ })).not.toBeInTheDocument();
     expect(screen.queryByRole('radio', { name: '사례 합쳐보기' })).not.toBeInTheDocument();
     expect(screen.queryByRole('radio', { name: 'STAR 방식' })).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('radio', { name: /계약 목업 STAR 사례 키워드 B/ }));
+    await user.click(screen.getByRole('radio', { name: 'STAR 사례 키워드 B' }));
 
-    expect(screen.getByText('계약 목업 STAR 작성 안내 B1')).toBeInTheDocument();
+    expect(screen.getByText('STAR 작성 안내 B1')).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: '사례 합쳐보기' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'STAR 방식' })).toBeInTheDocument();
     expect(screen.queryByLabelText(/^S$/)).not.toBeInTheDocument();
@@ -111,14 +111,14 @@ describe('SuccessExamplesWorkspacePage', () => {
       />,
     );
     await advanceToExampleSelection(user);
-    await user.click(screen.getByRole('radio', { name: /계약 목업 사례 키워드 A/ }));
+    await user.click(screen.getByRole('radio', { name: '사례 키워드 A' }));
     await user.click(screen.getByRole('button', { name: '다음: 직접 작성' }));
     await user.type(
-      screen.getByRole('textbox', { name: '사용자 작성 — 계약 목업 작성 단계 안내 A1' }),
+      screen.getByRole('textbox', { name: '사용자 작성 — 작성 단계 안내 A1' }),
       '첫 번째 단계 사용자 작성',
     );
     await user.type(
-      screen.getByRole('textbox', { name: '사용자 작성 — 계약 목업 작성 단계 안내 A2' }),
+      screen.getByRole('textbox', { name: '사용자 작성 — 작성 단계 안내 A2' }),
       '두 번째 단계 사용자 작성',
     );
     await user.click(screen.getByRole('button', { name: '작성 내용 저장' }));

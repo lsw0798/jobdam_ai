@@ -59,10 +59,11 @@ describe('coverLetterExport', () => {
       expect(html).toContain('안전한 &lt;내용&gt;과 &#39;인용&#39;');
       expect(html).toContain('2026-07-20');
       expect(html).not.toContain('<img src=x onerror="alert(1)">');
+      expect(html).not.toMatch(/브라우저 계약 목업|fixture-keyword|fixture-example|키워드 코드|사례 ID/);
     }
   });
 
-  it('AI자소서.doc와 AI자소서.xls 브라우저 목업을 각각 내려받고 자원을 정리한다', () => {
+  it('AI자소서.doc와 AI자소서.xls를 각각 내려받고 자원을 정리한다', () => {
     const word = createPlatform();
     const excel = createPlatform();
 

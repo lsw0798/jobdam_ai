@@ -29,7 +29,7 @@ describe('CareerVideoLibraryPage', () => {
     expect(tabs.getByRole('tab', { name: '인사전문가 강의' })).toHaveAttribute('aria-selected', 'false');
 
     const panel = screen.getByRole('tabpanel', { name: '모든취업사이트' });
-    expect(within(panel).getByText(/jobData\/28\.html/)).toBeInTheDocument();
+    expect(panel).not.toHaveTextContent(/레거시|static-legacy|jobData/i);
     siteCategoryLabels.forEach((label) => {
       expect(within(panel).getByRole('heading', { name: label })).toBeInTheDocument();
       expect(within(panel).getByRole('link', { name: `${label} 바로가기` })).toHaveAttribute('href', expect.stringMatching(/^#sites-\d{2}$/));
@@ -45,7 +45,7 @@ describe('CareerVideoLibraryPage', () => {
     });
   });
 
-  it('bbs_press 미연결 상태를 꾸미지 않고 실제 분류·검색·페이징 계약과 함께 표시한다', async () => {
+  it('동영상 미제공 상태를 고객용 문구와 분류·검색 UI로 표시한다', async () => {
     const user = userEvent.setup();
     render(<CareerVideoLibraryPage />);
 
@@ -53,7 +53,8 @@ describe('CareerVideoLibraryPage', () => {
 
     const panel = screen.getByRole('tabpanel', { name: '진로취업동영상' });
     expect(within(panel).getByRole('heading', { name: '진로취업동영상' })).toBeInTheDocument();
-    expect(await within(panel).findByText(/bbs_press.*연결할 수 없어/)).toBeInTheDocument();
+    expect(await within(panel).findByText('현재 동영상 목록을 불러올 수 없습니다.')).toBeInTheDocument();
+    expect(panel).not.toHaveTextContent(/DB|bbs_press|계약/i);
     expect(within(panel).getByRole('searchbox', { name: '동영상 검색' })).toBeInTheDocument();
     ['전체', '진로', '취업', '인적성/NCS', '기업분석', '간호분야'].forEach((label) => {
       expect(within(panel).getByRole('button', { name: label })).toBeInTheDocument();
@@ -61,14 +62,14 @@ describe('CareerVideoLibraryPage', () => {
     expect(within(panel).queryByRole('article')).not.toBeInTheDocument();
   });
 
-  it('레거시 활성 7분류의 실제 YouTube 강의 22개를 안전한 링크로 제공한다', async () => {
+  it('7개 분류의 실제 YouTube 강의 22개를 안전한 링크로 제공한다', async () => {
     const user = userEvent.setup();
     render(<CareerVideoLibraryPage />);
 
     await user.click(screen.getByRole('tab', { name: '인사전문가 강의' }));
 
     const panel = screen.getByRole('tabpanel', { name: '인사전문가 강의' });
-    expect(within(panel).getByText(/ndesign_section2\.html/)).toBeInTheDocument();
+    expect(panel).not.toHaveTextContent(/레거시|static-legacy|ndesign_section2/i);
     expect(within(panel).getByText('7개 분류 · 실제 YouTube 강의 22개')).toBeInTheDocument();
     expect(within(panel).getByRole('heading', { name: '기업분석 완전정복' })).toBeInTheDocument();
     const lectureLinks = within(panel).getAllByRole('link', { name: /새 창에서 열기$/ });
