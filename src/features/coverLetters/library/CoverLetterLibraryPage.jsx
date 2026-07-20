@@ -31,6 +31,15 @@ function identifiersEqual(first, second) {
   return first !== '' && second !== '' && String(first) === String(second);
 }
 
+function customerText(value) {
+  return String(value ?? '')
+    .replace(/계약\s*검증용\s*/g, '')
+    .replace(/계약\s*검증\s*/g, '')
+    .replace(/계약\s*목업\s*/g, '')
+    .replace(/DB\s*/gi, '')
+    .trim();
+}
+
 function safeReferences(service) {
   try {
     return service.getReferences?.() ?? COVER_LETTER_FIXTURE_REFERENCES;
@@ -137,7 +146,7 @@ function SupportStage({
           >
             <option value="">- 전체 직무 -</option>
             {references.duties.map((duty) => (
-              <option key={String(duty.dutyCode)} value={String(duty.dutyCode)}>{duty.name}</option>
+              <option key={String(duty.dutyCode)} value={String(duty.dutyCode)}>{customerText(duty.name)}</option>
             ))}
           </select>
 
@@ -236,7 +245,7 @@ function WritingStage({
                   <option value="">- 질문항목 키워드 -</option>
                   {references.keywords.map((keyword) => (
                     <option key={String(keyword.keywordCode)} value={String(keyword.keywordCode)}>
-                      {keyword.name}
+                      {customerText(keyword.name)}
                     </option>
                   ))}
                 </select>
@@ -252,7 +261,7 @@ function WritingStage({
                   <option value="">- 합격사례 -</option>
                   {availableExamples.map((example) => (
                     <option key={String(example.exampleCd)} value={String(example.exampleCd)}>
-                      {example.questionOri}
+                      {customerText(example.questionOri)}
                     </option>
                   ))}
                 </select>
@@ -265,11 +274,11 @@ function WritingStage({
                   role="region"
                 >
                   <h3>합격사례 참조</h3>
-                  <p><strong>원 질문:</strong> {selectedExample.questionOri}</p>
-                  <p><strong>헤드라인:</strong> {selectedExample.headline}</p>
-                  <p><strong>결론:</strong> {selectedExample.conclusion}</p>
-                  <p><strong>본문:</strong> {selectedExample.content}</p>
-                  <p><strong>마무리:</strong> {selectedExample.endline}</p>
+                  <p><strong>원 질문:</strong> {customerText(selectedExample.questionOri)}</p>
+                  <p><strong>헤드라인:</strong> {customerText(selectedExample.headline)}</p>
+                  <p><strong>결론:</strong> {customerText(selectedExample.conclusion)}</p>
+                  <p><strong>본문:</strong> {customerText(selectedExample.content)}</p>
+                  <p><strong>마무리:</strong> {customerText(selectedExample.endline)}</p>
                 </section>
               )}
             </div>
@@ -292,7 +301,7 @@ function WritingStage({
                 ))}
               </div>
               {selectedExample && (
-                <p><strong>{sentenceType.label} 참조:</strong> {selectedExample[item.sentenceType]}</p>
+                <p><strong>{sentenceType.label} 참조:</strong> {customerText(selectedExample[item.sentenceType])}</p>
               )}
             </fieldset>
 

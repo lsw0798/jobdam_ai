@@ -20,10 +20,9 @@ function JobSitesPanel() {
     <section aria-labelledby="career-content-tab-sites" className="career-video-library__panel" id="career-content-panel-sites" role="tabpanel">
       <div className="career-video-library__panel-heading">
         <div>
-          <p className="career-video-library__source">static-legacy · jobData/28.html</p>
           <h2>모든취업사이트</h2>
         </div>
-        <p>레거시 정적 원본의 12분류 · 사이트 링크 103개</p>
+        <p>12개 분야 · 사이트 {legacyJobSiteDirectory.categories.reduce((count, category) => count + category.sites.length, 0)}개</p>
       </div>
 
       <nav aria-label="취업사이트 분류 바로가기" className="career-video-library__anchor-nav">
@@ -44,7 +43,6 @@ function JobSitesPanel() {
                 <li key={site.id}>
                   <a aria-label={`${site.name} 새 창에서 열기`} href={site.href} rel="noopener noreferrer" target="_blank">
                     <span>{site.name}</span>
-                    <small>{site.href}</small>
                   </a>
                 </li>
               ))}
@@ -81,10 +79,9 @@ function CareerVideosPanel({ service }) {
     <section aria-labelledby="career-content-tab-videos" className="career-video-library__panel" id="career-content-panel-videos" role="tabpanel">
       <div className="career-video-library__panel-heading">
         <div>
-          <p className="career-video-library__source">db-unavailable · bbs_press</p>
           <h2>진로취업동영상</h2>
         </div>
-        <p>분류·검색·5건 페이징·상세·조회수 계약</p>
+        <p>분류와 검색으로 필요한 진로·취업 동영상을 찾아보세요.</p>
       </div>
 
       <label className="career-video-library__search">
@@ -105,8 +102,8 @@ function CareerVideosPanel({ service }) {
         ))}
       </div>
 
-      {!result && <p className="career-video-library__empty-state">동영상 계약을 확인하고 있습니다.</p>}
-      {result?.notice && <p className="career-video-library__empty-state" role="status">{result.notice}</p>}
+      {!result && <p className="career-video-library__empty-state">동영상을 불러오는 중입니다.</p>}
+      {result?.notice && <p className="career-video-library__empty-state" role="status">현재 동영상 목록을 불러올 수 없습니다.</p>}
       {result?.items.length > 0 && (
         <ul className="career-video-library__list">
           {result.items.map((video) => (
@@ -116,7 +113,7 @@ function CareerVideosPanel({ service }) {
                 <h3>{video.subject}</h3>
                 <p>{video.contentsSummary}</p>
                 <p>조회 {video.hit} · {video.registrationDate}</p>
-                <code>{video.cd}</code>
+
               </article>
             </li>
           ))}
@@ -143,7 +140,6 @@ function ExpertLecturesPanel() {
     <section aria-labelledby="career-content-tab-lectures" className="career-video-library__panel" id="career-content-panel-lectures" role="tabpanel">
       <div className="career-video-library__panel-heading">
         <div>
-          <p className="career-video-library__source">static-legacy · inc_html/ndesign_section2.html</p>
           <h2>인사전문가 강의</h2>
         </div>
         <p>{legacyExpertLectureLibrary.categories.length}개 분류 · 실제 YouTube 강의 {lectureCount}개</p>
@@ -178,9 +174,9 @@ export function CareerVideoLibraryPage({ videoService }) {
   return (
     <main className="career-video-library">
       <header className="career-video-library__header">
-        <p className="career-video-library__eyebrow">JOBDAM LEGACY CONTENT</p>
+        <p className="career-video-library__eyebrow">CAREER CONTENT</p>
         <h1>모든 취업 진로 정보가 여기에</h1>
-        <p>취업사이트, DB 기반 진로취업동영상, 인사전문가 강의를 콘텐츠 원본별로 구분했습니다.</p>
+        <p>취업사이트와 진로·취업 동영상, 인사전문가 강의를 한곳에서 확인하세요.</p>
       </header>
 
       <div aria-label="취업·진로 콘텐츠 유형" className="career-video-library__tabs" role="tablist">

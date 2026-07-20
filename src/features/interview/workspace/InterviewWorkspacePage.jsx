@@ -15,6 +15,15 @@ const BIO_QUESTIONS = [
   ['question7', '전 직장 퇴사 경험이 있습니까?'],
 ];
 
+function customerText(value) {
+  return String(value ?? '')
+    .replace(/계약\s*검증용\s*/g, '')
+    .replace(/계약\s*검증\s*/g, '')
+    .replace(/계약\s*목업\s*/g, '')
+    .replace(/DB\s*/gi, '')
+    .trim();
+}
+
 function createInitialWorkspace(savedWorkspace) {
   return {
     bio: {
@@ -178,19 +187,17 @@ export function InterviewWorkspacePage({ onSaved, service }) {
       onSaved?.(savedWorkspace);
     } catch {
       setSavedMessage('');
-      setSaveError('면접노트를 저장하지 못했습니다. 저장소 또는 서버 연결을 확인해 주세요.');
+      setSaveError('면접노트를 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.');
     }
   }
 
   return (
     <main className="interview-workspace">
       <header className="interview-workspace__header">
-        <p className="interview-workspace__eyebrow">LEGACY CONTRACT WORKSPACE</p>
+        <p className="interview-workspace__eyebrow">INTERVIEW PRACTICE</p>
         <h1>직무별 합격사례 면접답변 작성</h1>
-        <p>질문과 직무의 DB 식별자를 유지하며 일반 답변·키워드·후속답변을 단계별로 작성합니다.</p>
+        <p>직무별 질문과 합격사례를 참고해 나만의 답변과 핵심 키워드를 단계별로 작성하세요.</p>
       </header>
-
-      <p className="interview-workspace__mock-notice" role="note">{referenceData.notice}</p>
 
       <nav aria-label="면접답변 작성 단계" className="interview-workspace__steps">
         <ol>
@@ -277,7 +284,7 @@ export function InterviewWorkspacePage({ onSaved, service }) {
           <h2>기업·직무 선택</h2>
           <p>지원기업: {workspace.bio.supportCompany || '입력하지 않음'}</p>
           <fieldset>
-            <legend>DB 직무 코드</legend>
+            <legend>지원직무</legend>
             {referenceData.functions.map((item) => (
               <label key={item.cdFunction}>
                 <input
@@ -286,7 +293,7 @@ export function InterviewWorkspacePage({ onSaved, service }) {
                   onChange={() => selectFunction(item.cdFunction)}
                   type="radio"
                 />
-                {item.name} <code>{item.cdFunction}</code>
+                {customerText(item.name)}
               </label>
             ))}
           </fieldset>
@@ -300,7 +307,7 @@ export function InterviewWorkspacePage({ onSaved, service }) {
       {step === 3 && (
         <section className="interview-workspace__panel">
           <h2>질문 선택</h2>
-          <p>중요 질문 50개와 최빈도 질문 50개 계약을 전환하며 최대 50개를 선택합니다.</p>
+          <p>중요도와 최근 기출빈도를 기준으로 최대 50개의 질문을 선택하세요.</p>
           <div aria-label="질문 정렬 기준" className="interview-workspace__tabs" role="tablist">
             <button aria-selected={workspace.rankingMode === 'important'} onClick={() => setWorkspace((current) => ({ ...current, rankingMode: 'important' }))} role="tab" type="button">중요 질문</button>
             <button aria-selected={workspace.rankingMode === 'frequency'} onClick={() => setWorkspace((current) => ({ ...current, rankingMode: 'frequency' }))} role="tab" type="button">최빈도 질문</button>
@@ -316,10 +323,10 @@ export function InterviewWorkspacePage({ onSaved, service }) {
                     onChange={() => toggleQuestion(question)}
                     type="checkbox"
                   />
-                  {question.subject}
+                  {customerText(question.subject)}
                 </label>
                 <p>중요도 {question.importance} · 최근 기출빈도 {question.frequency}</p>
-                <code>{question.cdQuestion}</code>
+
               </article>
             ))}
           </div>
@@ -333,35 +340,77 @@ export function InterviewWorkspacePage({ onSaved, service }) {
       {step === 4 && (
         <section className="interview-workspace__panel">
           <h2>답변 작성</h2>
-          {selectedQuestions.map((question) => {
-            const answer = workspace.answers.find(({ cdQuestion }) => cdQuestion === question.cdQuestion);
-            return (
-              <article className="interview-workspace__answer-card" key={question.cdQuestion}>
-                <h3>{question.subject}</h3>
-                <dl>
-                  <div><dt>질문 의도</dt><dd>{question.intent}</dd></div>
-                  <div><dt>답변 방향</dt><dd>{question.direction}</dd></div>
-                  <div><dt>유사질문</dt><dd>{question.similarQuestions.join(', ') || '없음'}</dd></div>
-                  <div><dt>직무별 Best 답변 사례</dt><dd>{question.bestExamples.join(', ') || 'DB 연결 후 표시'}</dd></div>
-                </dl>
-                <label>
-                  나의 답변 — {question.subject}
-                  <textarea onChange={(event) => updateAnswer(question.cdQuestion, 'contents', event.target.value)} value={answer?.contents ?? ''} />
-                </label>
-                <label>
-                  후속 질문 답변 — {question.subject}
-                  <textarea onChange={(event) => updateAnswer(question.cdQuestion, 'followContents', event.target.value)} value={answer?.followContents ?? ''} />
-                </label>
-                {answer?.additionalQuestions.map((additionalQuestion, index) => (
-                  <div className="interview-workspace__additional" key={additionalQuestion.cdFlag}>
-                    <label>추가 질문 {index + 1}<input onChange={(event) => updateAdditionalQuestion(question.cdQuestion, index, 'question', event.target.value)} value={additionalQuestion.question} /></label>
-                    <label>추가 질문 답변 {index + 1}<textarea onChange={(event) => updateAdditionalQuestion(question.cdQuestion, index, 'contents', event.target.value)} value={additionalQuestion.contents} /></label>
-                  </div>
-                ))}
-                <button disabled={(answer?.additionalQuestions.length ?? 0) >= 3} onClick={() => addQuestion(question.cdQuestion)} type="button">추가 질문 추가</button>
-              </article>
-            );
-          })}
+          <div className="interview-workspace__table-wrapper">
+            <table className="interview-workspace__table interview-workspace__table--answers">
+              <caption>면접 답변 작성</caption>
+              <thead>
+                <tr>
+                  <th scope="col">면접 질문</th>
+                  <th scope="col">질문 의도</th>
+                  <th scope="col">답변 방향</th>
+                  <th scope="col">유사질문</th>
+                  <th scope="col">Best 답변 사례</th>
+                  <th scope="col">나의 답변</th>
+                  <th scope="col">후속 질문 답변</th>
+                  <th scope="col">추가 질문</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedQuestions.map((question) => {
+                  const answer = workspace.answers.find(({ cdQuestion }) => cdQuestion === question.cdQuestion);
+                  const subject = customerText(question.subject);
+                  return (
+                    <tr key={question.cdQuestion}>
+                      <th scope="row">{subject}</th>
+                      <td>{customerText(question.intent)}</td>
+                      <td>{customerText(question.direction)}</td>
+                      <td>{question.similarQuestions.map(customerText).join(', ') || '없음'}</td>
+                      <td>{question.bestExamples.map(customerText).join(', ') || '등록된 사례가 없습니다.'}</td>
+                      <td>
+                        <label className="interview-workspace__visually-hidden" htmlFor={`interview-answer-${question.cdQuestion}`}>
+                          나의 답변 — {subject}
+                        </label>
+                        <textarea
+                          id={`interview-answer-${question.cdQuestion}`}
+                          onChange={(event) => updateAnswer(question.cdQuestion, 'contents', event.target.value)}
+                          value={answer?.contents ?? ''}
+                        />
+                      </td>
+                      <td>
+                        <label className="interview-workspace__visually-hidden" htmlFor={`interview-follow-${question.cdQuestion}`}>
+                          후속 질문 답변 — {subject}
+                        </label>
+                        <textarea
+                          id={`interview-follow-${question.cdQuestion}`}
+                          onChange={(event) => updateAnswer(question.cdQuestion, 'followContents', event.target.value)}
+                          value={answer?.followContents ?? ''}
+                        />
+                      </td>
+                      <td className="interview-workspace__additional-cell">
+                        {answer?.additionalQuestions.map((additionalQuestion, index) => (
+                          <div className="interview-workspace__additional" key={additionalQuestion.cdFlag}>
+                            <label htmlFor={`interview-extra-question-${question.cdQuestion}-${index}`}>추가 질문 {index + 1}</label>
+                            <input
+                              id={`interview-extra-question-${question.cdQuestion}-${index}`}
+                              onChange={(event) => updateAdditionalQuestion(question.cdQuestion, index, 'question', event.target.value)}
+                              value={additionalQuestion.question}
+                            />
+                            <label htmlFor={`interview-extra-answer-${question.cdQuestion}-${index}`}>추가 질문 답변 {index + 1}</label>
+                            <textarea
+                              id={`interview-extra-answer-${question.cdQuestion}-${index}`}
+                              onChange={(event) => updateAdditionalQuestion(question.cdQuestion, index, 'contents', event.target.value)}
+                              value={additionalQuestion.contents}
+                            />
+                          </div>
+                        ))}
+                        <button disabled={(answer?.additionalQuestions.length ?? 0) >= 3} onClick={() => addQuestion(question.cdQuestion)} type="button">추가 질문 추가</button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           <div className="interview-workspace__actions">
             <button onClick={() => setStep(3)} type="button">이전</button>
             <button onClick={() => setStep(5)} type="button">다음: 키워드 작성</button>
@@ -372,15 +421,38 @@ export function InterviewWorkspacePage({ onSaved, service }) {
       {step === 5 && (
         <section className="interview-workspace__panel">
           <h2>키워드 작성</h2>
-          {selectedQuestions.map((question) => {
-            const answer = workspace.answers.find(({ cdQuestion }) => cdQuestion === question.cdQuestion);
-            return (
-              <label key={question.cdQuestion}>
-                키워드 — {question.subject}
-                <textarea onChange={(event) => updateAnswer(question.cdQuestion, 'myUnderline', event.target.value)} value={answer?.myUnderline ?? ''} />
-              </label>
-            );
-          })}
+          <div className="interview-workspace__table-wrapper">
+            <table className="interview-workspace__table interview-workspace__table--keywords">
+              <caption>면접 키워드 작성</caption>
+              <thead>
+                <tr>
+                  <th scope="col">면접 질문</th>
+                  <th scope="col">키워드</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedQuestions.map((question) => {
+                  const answer = workspace.answers.find(({ cdQuestion }) => cdQuestion === question.cdQuestion);
+                  const subject = customerText(question.subject);
+                  return (
+                    <tr key={question.cdQuestion}>
+                      <th scope="row">{subject}</th>
+                      <td>
+                        <label className="interview-workspace__visually-hidden" htmlFor={`interview-keywords-${question.cdQuestion}`}>
+                          키워드 — {subject}
+                        </label>
+                        <textarea
+                          id={`interview-keywords-${question.cdQuestion}`}
+                          onChange={(event) => updateAnswer(question.cdQuestion, 'myUnderline', event.target.value)}
+                          value={answer?.myUnderline ?? ''}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           <div className="interview-workspace__actions">
             <button onClick={() => setStep(4)} type="button">이전</button>
             <button onClick={() => setStep(6)} type="button">다음: 연습·다운로드</button>
@@ -391,7 +463,7 @@ export function InterviewWorkspacePage({ onSaved, service }) {
       {step === 6 && (
         <section className="interview-workspace__panel">
           <h2>연습·다운로드</h2>
-          <p>{selectedFunction?.name} · 선택 질문 {workspace.questionIds.length}개</p>
+          <p>{customerText(selectedFunction?.name)} · 선택 질문 {workspace.questionIds.length}개</p>
           <div aria-live="polite">
             {saveError && <p role="alert">{saveError}</p>}
             {savedMessage && <p role="status">{savedMessage}</p>}
@@ -399,8 +471,8 @@ export function InterviewWorkspacePage({ onSaved, service }) {
           <div className="interview-workspace__actions">
             <button onClick={() => setStep(5)} type="button">이전</button>
             <button onClick={saveWorkspace} type="button">면접노트 저장</button>
-            <button onClick={() => downloadWorkspace(workspace, 'word')} type="button">Word 목업 다운로드</button>
-            <button onClick={() => downloadWorkspace(workspace, 'excel')} type="button">Excel 목업 다운로드</button>
+            <button onClick={() => downloadWorkspace(workspace, 'word')} type="button">Word 다운로드</button>
+            <button onClick={() => downloadWorkspace(workspace, 'excel')} type="button">Excel 다운로드</button>
           </div>
         </section>
       )}

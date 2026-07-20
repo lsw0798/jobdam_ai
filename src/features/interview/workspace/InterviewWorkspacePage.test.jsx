@@ -94,9 +94,20 @@ describe('InterviewWorkspacePage legacy contract', () => {
 
     await advanceToAnswerWriting(user);
 
+    const answerTable = screen.getByRole('table', { name: '면접 답변 작성' });
+    expect(within(answerTable).getAllByRole('columnheader').map((header) => header.textContent)).toEqual([
+      '면접 질문',
+      '질문 의도',
+      '답변 방향',
+      '유사질문',
+      'Best 답변 사례',
+      '나의 답변',
+      '후속 질문 답변',
+      '추가 질문',
+    ]);
     expect(screen.getByText('질문의도')).toBeInTheDocument();
     expect(screen.getByText('답변방향')).toBeInTheDocument();
-    expect(screen.getByText('Best 답변 사례')).toBeInTheDocument();
+    expect(screen.getAllByText('Best 답변 사례')).toHaveLength(2);
     expect(screen.queryByRole('textbox', { name: /질문 의도/ })).not.toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: '나의 답변 — 질문 1' })).toBeInTheDocument();
   });
@@ -114,6 +125,11 @@ describe('InterviewWorkspacePage legacy contract', () => {
     await user.type(screen.getByRole('textbox', { name: '추가 질문 1' }), '추가 질문 내용');
     await user.type(screen.getByRole('textbox', { name: '추가 질문 답변 1' }), '추가 답변 내용');
     await user.click(screen.getByRole('button', { name: '다음: 키워드 작성' }));
+    const keywordTable = screen.getByRole('table', { name: '면접 키워드 작성' });
+    expect(within(keywordTable).getAllByRole('columnheader').map((header) => header.textContent)).toEqual([
+      '면접 질문',
+      '키워드',
+    ]);
     await user.type(screen.getByRole('textbox', { name: '키워드 — 질문 1' }), '협업, 문제해결');
     await user.click(screen.getByRole('button', { name: '다음: 연습·다운로드' }));
     await user.click(screen.getByRole('button', { name: '면접노트 저장' }));

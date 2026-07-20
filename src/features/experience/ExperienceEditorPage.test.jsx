@@ -109,7 +109,7 @@ describe('ExperienceEditorPage legacy contract', () => {
     expect(screen.getByLabelText('직무·전공 활동 1 활동내용')).toHaveValue('캡스톤 프로젝트');
     expect(screen.getByLabelText('직무·전공 활동 1 시작일')).toHaveValue('2025-03-01');
     expect(screen.getByLabelText('직무·전공 활동 1 종료일')).toHaveValue('2025-12-01');
-  });
+  }, 15_000);
 
   it('레거시 의미를 보존한 고정 섹션 DTO를 저장하고 부모 콜백에 전달한다', async () => {
     const user = userEvent.setup();

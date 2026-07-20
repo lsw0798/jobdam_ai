@@ -14,31 +14,31 @@ function createInjectedService({ history = [], loaded = null, save = vi.fn((work
 }
 
 async function advanceToExampleSelection(user) {
-  await user.click(screen.getByRole('checkbox', { name: /계약 목업 직무 A/ }));
+  await user.click(screen.getByRole('checkbox', { name: '직무 A' }));
   await user.click(screen.getByRole('button', { name: '다음: 항목 선택' }));
   await user.click(screen.getByRole('radio', { name: '기본항목' }));
-  await user.click(screen.getByRole('radio', { name: /계약 목업 기본항목 A/ }));
+  await user.click(screen.getByRole('radio', { name: '기본항목 A' }));
   await user.click(screen.getByRole('button', { name: '다음: 항목 안내' }));
   await user.click(screen.getByRole('button', { name: '다음: 사례 선택' }));
 }
 
 describe('SuccessExamplesWorkspacePage', () => {
-  it('DB 미연결 목업을 밝히고 자유 텍스트 직무 대신 직무 코드를 최대 3개 선택한다', async () => {
+  it('개발자용 안내 없이 직무 그룹을 최대 3개 선택한다', async () => {
     const user = userEvent.setup();
 
     render(<SuccessExamplesWorkspacePage service={createInjectedService()} />);
 
     expect(screen.getByRole('heading', { name: '항목의도·직무별 합격사례 자소서' })).toBeInTheDocument();
-    expect(screen.getByText(/DB 미연결 계약 목업/)).toBeInTheDocument();
+    expect(document.body).not.toHaveTextContent(/목업|레거시|\bDB\b|fixture-/i);
     expect(screen.queryByLabelText('직무')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('자소서 항목의도')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('나의 사례')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('작성 초안')).not.toBeInTheDocument();
 
-    const groupA = screen.getByRole('checkbox', { name: /계약 목업 직무 A/ });
-    const groupB = screen.getByRole('checkbox', { name: /계약 목업 직무 B/ });
-    const groupC = screen.getByRole('checkbox', { name: /계약 목업 직무 C/ });
-    const groupD = screen.getByRole('checkbox', { name: /계약 목업 직무 D/ });
+    const groupA = screen.getByRole('checkbox', { name: '직무 A' });
+    const groupB = screen.getByRole('checkbox', { name: '직무 B' });
+    const groupC = screen.getByRole('checkbox', { name: '직무 C' });
+    const groupD = screen.getByRole('checkbox', { name: '직무 D' });
 
     await user.click(groupA);
     await user.click(groupB);
@@ -51,24 +51,24 @@ describe('SuccessExamplesWorkspacePage', () => {
     expect(screen.getByText('3 / 3개 선택')).toBeInTheDocument();
   });
 
-  it('기본·심화 item code를 선택하고 DB 소유 안내를 입력칸이 아닌 읽기 전용으로 표시한다', async () => {
+  it('기본·심화 항목을 선택하고 항목 안내를 입력칸이 아닌 읽기 전용으로 표시한다', async () => {
     const user = userEvent.setup();
 
     render(<SuccessExamplesWorkspacePage service={createInjectedService()} />);
 
-    await user.click(screen.getByRole('checkbox', { name: /계약 목업 직무 A/ }));
+    await user.click(screen.getByRole('checkbox', { name: '직무 A' }));
     await user.click(screen.getByRole('button', { name: '다음: 항목 선택' }));
     await user.click(screen.getByRole('radio', { name: '기본항목' }));
-    await user.click(screen.getByRole('radio', { name: /계약 목업 기본항목 A/ }));
+    await user.click(screen.getByRole('radio', { name: '기본항목 A' }));
     await user.click(screen.getByRole('button', { name: '다음: 항목 안내' }));
 
-    expect(screen.getByRole('heading', { name: 'DB 읽기 전용 항목 안내' })).toBeInTheDocument();
-    expect(screen.getByText('계약 목업 항목의도 A')).toBeInTheDocument();
-    expect(screen.getByText('계약 목업 작성방법 A')).toBeInTheDocument();
-    expect(screen.getByText('계약 목업 지식 A')).toBeInTheDocument();
-    expect(screen.getByText('계약 목업 기술 A')).toBeInTheDocument();
-    expect(screen.getByText('계약 목업 태도 A')).toBeInTheDocument();
-    expect(screen.getByText('계약 목업 자격증 A')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '항목 안내' })).toBeInTheDocument();
+    expect(screen.getByText('항목의도 A')).toBeInTheDocument();
+    expect(screen.getByText('작성방법 A')).toBeInTheDocument();
+    expect(screen.getByText('지식 A')).toBeInTheDocument();
+    expect(screen.getByText('기술 A')).toBeInTheDocument();
+    expect(screen.getByText('태도 A')).toBeInTheDocument();
+    expect(screen.getByText('자격증 A')).toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: /항목의도/ })).not.toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: /작성방법/ })).not.toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: /필요역량/ })).not.toBeInTheDocument();

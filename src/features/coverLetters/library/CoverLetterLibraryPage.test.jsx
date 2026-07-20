@@ -54,7 +54,7 @@ function createService(overrides = {}) {
 async function enterSupportInfo(user) {
   await user.click(screen.getByLabelText('합격사례 제공 동의'));
   await user.type(screen.getByLabelText('지원기업'), '잡담 주식회사');
-  await user.selectOptions(screen.getByLabelText('DB 직무'), 'fixture-duty-frontend');
+  await user.selectOptions(screen.getByLabelText('지원직무'), 'fixture-duty-frontend');
   await user.click(screen.getByRole('button', { name: '질문 입력 단계로' }));
 }
 
@@ -88,22 +88,21 @@ const savedRecord = Object.freeze({
   updatedAt: '2026-07-20T09:00:00.000Z',
 });
 
-describe('CoverLetterLibraryPage legacy staged workspace', () => {
-  it('목업 배너와 DB 소유 직무 선택을 보여 주고 직무를 자유입력으로 바꾸지 않는다', () => {
+describe('CoverLetterLibraryPage staged workspace', () => {
+  it('개발자용 안내 없이 지원직무 선택을 제공하고 직무를 자유입력으로 바꾸지 않는다', () => {
     render(<CoverLetterLibraryPage service={createService()} />);
 
     expect(screen.getByRole('heading', { name: 'AI 기업·직무 맞춤 자소서 작성' })).toBeInTheDocument();
-    expect(screen.getByText(/DB 미연결 계약 목업/)).toBeInTheDocument();
-    expect(screen.getByText(/소유자별 브라우저 localStorage/)).toBeInTheDocument();
+    expect(document.body).not.toHaveTextContent(/목업|레거시|\bDB\b|localStorage|fixture-/i);
     expect(screen.getByLabelText('합격사례 제공 동의')).toBeInTheDocument();
     expect(screen.getByLabelText('지원기업')).toHaveAttribute('type', 'text');
-    expect(screen.getByLabelText('DB 직무').tagName).toBe('SELECT');
+    expect(screen.getByLabelText('지원직무').tagName).toBe('SELECT');
     expect(screen.getByRole('option', { name: '프론트엔드 개발자' })).toHaveValue('fixture-duty-frontend');
     expect(screen.queryByRole('textbox', { name: '지원직무' })).not.toBeInTheDocument();
     expect(screen.queryByLabelText('질문 1 키워드')).not.toBeInTheDocument();
   });
 
-  it('동의·기업·DB 직무·직접 질문·참조 ID·직접 작성 내용을 단계별로 저장한다', async () => {
+  it('동의·기업·지원직무·직접 질문·참조 ID·직접 작성 내용을 단계별로 저장한다', async () => {
     const user = userEvent.setup();
     const service = createService();
     const onSaved = vi.fn();
@@ -159,7 +158,7 @@ describe('CoverLetterLibraryPage legacy staged workspace', () => {
     render(<CoverLetterLibraryPage service={service} />);
     await user.click(screen.getByLabelText('합격사례 제공 동의'));
     await user.type(screen.getByLabelText('지원기업'), '숫자 기업');
-    await user.selectOptions(screen.getByLabelText('DB 직무'), '101');
+    await user.selectOptions(screen.getByLabelText('지원직무'), '101');
     await user.click(screen.getByRole('button', { name: '질문 입력 단계로' }));
     await user.type(screen.getByLabelText('기업 질문 1'), '숫자 ID 질문');
     await user.click(screen.getByRole('button', { name: '사례 참고·직접 작성 단계로' }));
@@ -186,11 +185,11 @@ describe('CoverLetterLibraryPage legacy staged workspace', () => {
 
     expect(screen.getAllByLabelText(/기업 질문 \d/)).toHaveLength(6);
     expect(screen.getByRole('button', { name: '기업 질문 추가' })).toBeDisabled();
-    expect(screen.getByText('6 / 6개 · 레거시 지속 호환 한계')).toBeInTheDocument();
+    expect(screen.getByText('6 / 6개')).toBeInTheDocument();
     expect(screen.queryByLabelText('기업 질문 7')).not.toBeInTheDocument();
   });
 
-  it('DB 사례는 읽기 전용으로 보여 주고 키워드·사례 식별자를 유지한다', async () => {
+  it('합격사례는 읽기 전용으로 보여 주고 키워드·사례 식별자를 유지한다', async () => {
     const user = userEvent.setup();
     render(<CoverLetterLibraryPage service={createService()} />);
 
@@ -200,14 +199,14 @@ describe('CoverLetterLibraryPage legacy staged workspace', () => {
     await user.selectOptions(screen.getByLabelText('질문 1 키워드'), 'fixture-keyword-problem');
     await user.selectOptions(screen.getByLabelText('질문 1 합격사례'), 'fixture-example-1');
 
-    const reference = screen.getByRole('region', { name: '질문 1 DB 합격사례 참조' });
-    expect(within(reference).getByText('DB 사례 본문')).toBeInTheDocument();
-    expect(within(reference).getByText(/fixture-example-1/)).toBeInTheDocument();
+    const reference = screen.getByRole('region', { name: '질문 1 합격사례 참조' });
+    expect(within(reference).getByText(/사례 본문/)).toBeInTheDocument();
+    expect(reference).not.toHaveTextContent(/\bDB\b|fixture-/i);
     expect(within(reference).queryByRole('textbox')).not.toBeInTheDocument();
     expect(screen.getByLabelText('질문 1 합격사례')).toHaveValue('fixture-example-1');
   });
 
-  it('이력에서 numeric/string ID를 유지한 채 수정·삭제와 Word/Excel 목업 출력을 제공한다', async () => {
+  it('이력에서 numeric/string ID를 유지한 채 수정·삭제와 Word/Excel 다운로드를 제공한다', async () => {
     const user = userEvent.setup();
     const service = createService({ load: vi.fn(() => [savedRecord]) });
     const exportDocument = vi.fn();
@@ -222,32 +221,32 @@ describe('CoverLetterLibraryPage legacy staged workspace', () => {
     );
 
     const article = screen.getByRole('article', { name: /테스트 기업/ });
-    await user.click(within(article).getByRole('button', { name: 'Word 목업 출력' }));
-    await user.click(within(article).getByRole('button', { name: 'Excel 목업 출력' }));
+    await user.click(within(article).getByRole('button', { name: 'Word 다운로드' }));
+    await user.click(within(article).getByRole('button', { name: 'Excel 다운로드' }));
     expect(exportDocument).toHaveBeenCalledWith(savedRecord);
     expect(exportSpreadsheet).toHaveBeenCalledWith(savedRecord);
-    expect(screen.getByRole('status')).toHaveTextContent('브라우저 목업 출력');
+    expect(screen.getByRole('status')).toHaveTextContent('Excel 파일 다운로드를 시작했습니다.');
 
     await user.click(within(article).getByRole('button', { name: '수정' }));
     expect(screen.getByLabelText('지원기업')).toHaveValue('테스트 기업');
-    expect(screen.getByLabelText('DB 직무')).toHaveValue('fixture-duty-frontend');
+    expect(screen.getByLabelText('지원직무')).toHaveValue('fixture-duty-frontend');
 
     await user.click(within(article).getByRole('button', { name: '삭제' }));
     expect(service.remove).toHaveBeenCalledWith(73);
     expect(screen.queryByRole('article', { name: /테스트 기업/ })).not.toBeInTheDocument();
   });
 
-  it('필수 동의·기업·DB 직무가 없으면 다음 단계로 가지 않고 접근 가능한 오류를 안내한다', async () => {
+  it('필수 동의·기업·지원직무가 없으면 다음 단계로 가지 않고 접근 가능한 오류를 안내한다', async () => {
     const user = userEvent.setup();
     const service = createService();
 
     render(<CoverLetterLibraryPage service={service} />);
     await user.click(screen.getByRole('button', { name: '질문 입력 단계로' }));
 
-    expect(screen.getByRole('alert')).toHaveTextContent('사례 제공 동의와 지원기업, DB 직무를 확인해 주세요.');
+    expect(screen.getByRole('alert')).toHaveTextContent('사례 제공 동의와 지원기업, 지원직무를 확인해 주세요.');
     expect(screen.getByLabelText('합격사례 제공 동의')).toHaveAttribute('aria-invalid', 'true');
     expect(screen.getByLabelText('지원기업')).toHaveAttribute('aria-invalid', 'true');
-    expect(screen.getByLabelText('DB 직무')).toHaveAttribute('aria-invalid', 'true');
+    expect(screen.getByLabelText('지원직무')).toHaveAttribute('aria-invalid', 'true');
     expect(screen.queryByRole('heading', { name: '기업 질문 직접 입력' })).not.toBeInTheDocument();
     expect(service.save).not.toHaveBeenCalled();
   });

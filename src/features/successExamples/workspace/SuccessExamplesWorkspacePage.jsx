@@ -238,17 +238,17 @@ export function SuccessExamplesWorkspacePage({ onSaved, service }) {
       {step === 3 && selectedItem && (
         <section aria-labelledby="success-examples-step-3" className="success-examples-workspace__panel">
           <p className="success-examples-workspace__step-label">3단계</p>
-          <h2 id="success-examples-step-3">DB 읽기 전용 항목 안내</h2>
+          <h2 id="success-examples-step-3">항목 안내</h2>
           <p className="success-examples-workspace__readonly-note">
-            아래 내용은 DB 기준정보 소유 영역이며 사용자가 수정하거나 저장하는 입력값이 아닙니다.
+            아래 항목 의도와 작성 방법을 참고하세요.
           </p>
           <dl className="success-examples-workspace__reference-list">
-            <div><dt>항목의도</dt><dd>{selectedItem.intent}</dd></div>
-            <div><dt>작성방법</dt><dd>{selectedItem.method}</dd></div>
-            <div><dt>필요역량 · 지식(K)</dt><dd>{selectedItem.competencies.knowledge}</dd></div>
-            <div><dt>필요역량 · 기술(S)</dt><dd>{selectedItem.competencies.skill}</dd></div>
-            <div><dt>필요역량 · 태도(A)</dt><dd>{selectedItem.competencies.attitude}</dd></div>
-            <div><dt>필요역량 · 자격증(C)</dt><dd>{selectedItem.competencies.certificate}</dd></div>
+            <div><dt>항목의도</dt><dd>{customerText(selectedItem.intent)}</dd></div>
+            <div><dt>작성방법</dt><dd>{customerText(selectedItem.method)}</dd></div>
+            <div><dt>필요역량 · 지식(K)</dt><dd>{customerText(selectedItem.competencies.knowledge)}</dd></div>
+            <div><dt>필요역량 · 기술(S)</dt><dd>{customerText(selectedItem.competencies.skill)}</dd></div>
+            <div><dt>필요역량 · 태도(A)</dt><dd>{customerText(selectedItem.competencies.attitude)}</dd></div>
+            <div><dt>필요역량 · 자격증(C)</dt><dd>{customerText(selectedItem.competencies.certificate)}</dd></div>
           </dl>
           <div className="success-examples-workspace__actions">
             <button onClick={() => setStep(2)} type="button">이전</button>
@@ -266,9 +266,9 @@ export function SuccessExamplesWorkspacePage({ onSaved, service }) {
       {step === 4 && (
         <section aria-labelledby="success-examples-step-4" className="success-examples-workspace__panel">
           <p className="success-examples-workspace__step-label">4단계</p>
-          <h2 id="success-examples-step-4">사례 keyword·master 선택</h2>
+          <h2 id="success-examples-step-4">합격사례 선택</h2>
           <fieldset className="success-examples-workspace__choices">
-            <legend>계약 목업 사례</legend>
+            <legend>합격사례</legend>
             {visibleExamples.map((example) => (
               <label className="success-examples-workspace__choice" key={example.masterCd}>
                 <input
@@ -278,23 +278,18 @@ export function SuccessExamplesWorkspacePage({ onSaved, service }) {
                   type="radio"
                   value={example.masterCd}
                 />
-                <span>{example.keyword}</span>
-                <code>{example.masterCd}</code>
+                <span>{customerText(example.keyword)}</span>
               </label>
             ))}
           </fieldset>
 
           {selectedExample && (
             <div className="success-examples-workspace__example-detail">
-              <p className="success-examples-workspace__readonly-note">
-                contentGuide와 content는 DB 소유 읽기 전용 계약 목업입니다.
-              </p>
               {selectedExample.details.map((detail) => (
                 <article className="success-examples-workspace__reference-card" key={detail.cdSeq}>
-                  <h3>{detail.contentGuide}</h3>
-                  {detail.contentGuideStar && <p>{detail.contentGuideStar}</p>}
-                  <div aria-label={`사례 본문 ${detail.cdSeq}`}>{detail.content}</div>
-                  <code>{detail.cdSeq}</code>
+                  <h3>{customerText(detail.contentGuide)}</h3>
+                  {detail.contentGuideStar && <p>{customerText(detail.contentGuideStar)}</p>}
+                  <div aria-label="사례 본문">{customerText(detail.content)}</div>
                 </article>
               ))}
 
@@ -343,8 +338,8 @@ export function SuccessExamplesWorkspacePage({ onSaved, service }) {
       {step === 5 && selectedExample && (
         <section aria-labelledby="success-examples-step-5" className="success-examples-workspace__panel">
           <p className="success-examples-workspace__step-label">5단계</p>
-          <h2 id="success-examples-step-5">cdSeq별 직접 작성</h2>
-          <p>각 입력은 DB 상세 식별자에 연결되며 읽기 전용 사례와 분리해 저장됩니다.</p>
+          <h2 id="success-examples-step-5">직접 작성</h2>
+          <p>합격사례를 참고해 나만의 내용으로 작성하세요.</p>
           <div className="success-examples-workspace__writing-list">
             {selectedExample.details.map((referenceDetail) => {
               const writingDetail = writingDetails.find(
@@ -359,10 +354,10 @@ export function SuccessExamplesWorkspacePage({ onSaved, service }) {
 
               return (
                 <article className="success-examples-workspace__writing-card" key={referenceDetail.cdSeq}>
-                  <h3>{referenceDetail.contentGuide}</h3>
-                  <p className="success-examples-workspace__readonly-example">{referenceDetail.content}</p>
+                  <h3>{customerText(referenceDetail.contentGuide)}</h3>
+                  <p className="success-examples-workspace__readonly-example">{customerText(referenceDetail.content)}</p>
                   <label htmlFor={`success-writing-${referenceDetail.cdSeq}`}>
-                    {labelPrefix} — {referenceDetail.contentGuide}
+                    {labelPrefix} — {customerText(referenceDetail.contentGuide)}
                   </label>
                   <textarea
                     id={`success-writing-${referenceDetail.cdSeq}`}
@@ -374,7 +369,7 @@ export function SuccessExamplesWorkspacePage({ onSaved, service }) {
                     )}
                     value={writingDetail?.[field] ?? ''}
                   />
-                  <code>{referenceDetail.cdSeq}</code>
+
                 </article>
               );
             })}

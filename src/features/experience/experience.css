@@ -77,7 +77,7 @@
 
 .experience-data-table {
   width: 100%;
-  min-width: 60rem;
+  min-width: 48rem;
   border-collapse: collapse;
   table-layout: fixed;
   background: #fff;
@@ -87,12 +87,9 @@
   min-width: 34rem;
 }
 
-.experience-data-table--repeatable {
-  min-width: 72rem;
-}
-
+.experience-data-table--repeatable,
 .experience-data-table--wide {
-  min-width: 80rem;
+  min-width: 50rem;
 }
 
 .experience-data-table th,
