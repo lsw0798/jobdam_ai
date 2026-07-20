@@ -1,0 +1,107 @@
+.app-shell {
+  --sidebar-collapsed-width: 4.5rem;
+  --sidebar-expanded-width: min(19rem, 100vw);
+  --sidebar-width: var(--sidebar-expanded-width);
+
+  min-height: 100vh;
+  background: var(--color-page);
+}
+
+.app-shell.is-sidebar-collapsed {
+  --sidebar-width: var(--sidebar-collapsed-width);
+}
+
+.skip-to-content {
+  position: fixed;
+  z-index: 1000;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 700;
+  transform: translateY(calc(-100% - 1rem));
+}
+
+.skip-to-content:focus {
+  outline: 3px solid var(--color-primary-bright);
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
+.app-content {
+  margin-left: var(--sidebar-width);
+  min-width: 0;
+  transition: margin-left 180ms ease;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 5rem;
+  padding: 1rem clamp(1.25rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(247, 252, 255, 0.94);
+}
+
+.app-header-label {
+  margin: 0 0 0.2rem;
+  color: var(--color-primary);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.app-header strong {
+  color: var(--color-text);
+  font-size: 1.1rem;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.user-actions button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.user-actions button:hover,
+.user-actions button:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  outline: none;
+}
+
+.app-page-content {
+  min-height: calc(100vh - 5rem);
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    --sidebar-expanded-width: min(19rem, calc(100vw - 3rem));
+  }
+
+  .app-content {
+    margin-left: var(--sidebar-collapsed-width);
+  }
+}
+
+@media (max-width: 560px) {
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

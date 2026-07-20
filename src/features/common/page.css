@@ -1,0 +1,77 @@
+.intro-page {
+  display: grid;
+  min-height: 100%;
+  place-items: center;
+  padding: clamp(1.5rem, 4vw, 4rem);
+}
+
+.intro-card {
+  width: min(48rem, 100%);
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.intro-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.intro-card h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.2;
+  word-break: keep-all;
+}
+
+.intro-description {
+  margin: 1.25rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.intro-bullets {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.5rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.intro-action {
+  margin-top: 2rem;
+}
+
+.primary-action,
+.cover-letter-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.primary-action:hover,
+.primary-action:focus-visible,
+.cover-letter-action:hover,
+.cover-letter-action:focus-visible {
+  background: var(--color-primary-hover);
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}

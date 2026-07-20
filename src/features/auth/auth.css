@@ -1,0 +1,110 @@
+.auth-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at top left, var(--color-surface-muted), transparent 42%), var(--color-page);
+}
+
+.auth-card {
+  width: min(100%, 29rem);
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.auth-eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.auth-card h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 2rem;
+}
+
+.auth-notice {
+  margin: 0.75rem 0 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.auth-card form {
+  display: grid;
+  gap: 1rem;
+}
+
+.auth-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.auth-field label {
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.auth-field input {
+  min-height: 2.85rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.65rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.auth-field input:focus-visible {
+  border-color: var(--color-primary);
+  outline: 3px solid var(--color-focus-ring);
+}
+
+.auth-card button {
+  min-height: 3rem;
+  border: 0;
+  border-radius: 0.65rem;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 800;
+}
+
+.auth-card button:hover,
+.auth-card button:focus-visible {
+  background: var(--color-primary-hover);
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.auth-errors {
+  padding: 0.75rem 1rem;
+  border: 1px solid #f0b9b9;
+  border-radius: 0.65rem;
+  background: #fff4f4;
+  color: #9a3030;
+  font-size: 0.875rem;
+}
+
+.auth-errors ul {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.auth-switch {
+  margin: 1.25rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.auth-switch a {
+  color: var(--color-primary);
+  font-weight: 800;
+}

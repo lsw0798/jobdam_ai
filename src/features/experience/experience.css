@@ -1,0 +1,305 @@
+.experience-editor-page {
+  box-sizing: border-box;
+  width: min(100%, 76rem);
+  max-width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 3rem);
+  overflow-x: hidden;
+  color: var(--color-text);
+}
+
+.experience-editor-page *,
+.experience-editor-page *::before,
+.experience-editor-page *::after {
+  box-sizing: border-box;
+}
+
+.experience-editor-header {
+  margin-bottom: 1.25rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, var(--color-surface-subtle), var(--color-surface-muted));
+}
+
+.experience-editor-eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.experience-editor-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.experience-editor-description {
+  margin: 0.75rem 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.experience-editor-form {
+  display: grid;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.experience-panel {
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-surface);
+}
+
+.experience-panel h2 {
+  margin: 0 0 1rem;
+  color: var(--color-text);
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+}
+
+.experience-table-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.experience-table-scroll:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.experience-data-table {
+  width: 100%;
+  min-width: 60rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #fff;
+}
+
+.experience-data-table--key-value {
+  min-width: 34rem;
+}
+
+.experience-data-table--repeatable {
+  min-width: 72rem;
+}
+
+.experience-data-table--wide {
+  min-width: 80rem;
+}
+
+.experience-data-table th,
+.experience-data-table td {
+  padding: 0.55rem;
+  border: 1px solid #c9d9e1;
+  vertical-align: top;
+}
+
+.experience-data-table thead th {
+  background: #dff3fc;
+  color: #155f7b;
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.experience-data-table tbody th {
+  background: #fff;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.experience-data-table--key-value thead th:first-child,
+.experience-data-table--key-value tbody th {
+  width: 13rem;
+}
+
+.experience-data-table--competency thead th:first-child,
+.experience-data-table--competency tbody th {
+  width: 7rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.experience-data-table--repeatable thead th:first-child,
+.experience-data-table--repeatable tbody th {
+  width: 4rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.experience-data-table--repeatable thead th:last-child,
+.experience-table-action-cell {
+  width: 5.25rem;
+}
+
+.experience-editor-page label {
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.experience-editor-page input,
+.experience-editor-page textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.625rem 0.7rem;
+  border: 1px solid #d4dfe4;
+  border-radius: 0.3rem;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.experience-editor-page input[readonly] {
+  color: var(--color-text-muted);
+}
+
+.experience-editor-page textarea {
+  min-height: 5.25rem;
+  resize: vertical;
+}
+
+.experience-editor-page input:focus-visible,
+.experience-editor-page textarea:focus-visible,
+.experience-editor-page button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 1px;
+}
+
+.experience-data-table tbody tr:focus-within th,
+.experience-data-table tbody tr:focus-within td {
+  background: #f8fcfe;
+}
+
+.experience-data-table tbody tr:focus-within input,
+.experience-data-table tbody tr:focus-within textarea {
+  background: #fff;
+}
+
+.experience-table-action-cell {
+  text-align: center;
+  vertical-align: middle !important;
+}
+
+.experience-section-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+}
+
+.experience-row-count {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.experience-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.experience-editor-page button {
+  min-height: 2.75rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 0.65rem;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.experience-editor-page button.secondary {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+.experience-editor-page button.danger {
+  border-color: #d88d8d;
+  background: #fff;
+  color: #9b3333;
+}
+
+.experience-editor-page button.experience-delete-button {
+  min-height: 2.25rem;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.82rem;
+}
+
+.experience-editor-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.experience-editor-form [role='alert'],
+.experience-editor-form [role='status'] {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.65rem;
+}
+
+.experience-editor-form [role='alert'] {
+  border: 1px solid #f0b9b9;
+  background: #fff4f4;
+  color: #9a3030;
+}
+
+.experience-editor-form [role='status'] {
+  border: 1px solid #a6d8bc;
+  background: #f1fbf5;
+  color: #257443;
+}
+
+.experience-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 700px) {
+  .experience-editor-page {
+    padding: 1rem;
+  }
+
+  .experience-editor-header,
+  .experience-panel {
+    border-radius: 0.85rem;
+  }
+
+  .experience-editor-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .experience-section-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

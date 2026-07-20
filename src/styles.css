@@ -1,0 +1,65 @@
+:root {
+  --color-page: #f7fcff;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f0f9ff;
+  --color-surface-muted: #e0f2fe;
+  --color-primary: #0369a1;
+  --color-primary-hover: #075985;
+  --color-primary-bright: #0ea5e9;
+  --color-primary-soft: #e0f2fe;
+  --color-border: #c7e5f4;
+  --color-border-strong: #7dd3fc;
+  --color-text: #102a43;
+  --color-text-muted: #52677a;
+  --color-on-primary: #f7fcff;
+  --color-focus-ring: rgba(14, 165, 233, 0.3);
+  --shadow-soft: 0 1rem 2.5rem rgba(3, 105, 161, 0.1);
+
+  font-family: Pretendard, "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--color-text);
+  background: var(--color-page);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--color-page);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-text);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  accent-color: var(--color-primary);
+}
+
+::selection {
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.page-placeholder {
+  padding: 2rem;
+}

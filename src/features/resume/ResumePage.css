@@ -1,0 +1,313 @@
+.resume-page {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 48px 32px 72px;
+  color: var(--color-text);
+}
+
+.resume-page__header {
+  margin-bottom: 28px;
+  padding: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-muted) 100%);
+  box-shadow: var(--shadow-soft);
+}
+
+.resume-page__eyebrow {
+  margin: 0 0 8px;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.resume-page__header h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(32px, 4vw, 44px);
+  letter-spacing: -0.05em;
+}
+
+.resume-page__header p:last-child {
+  margin: 12px 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.resume-page form {
+  display: grid;
+  gap: 20px;
+}
+
+.resume-section,
+.resume-repeatable-section {
+  min-width: 0;
+  padding: 26px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 24px rgba(3, 105, 161, 0.06);
+}
+
+.resume-section h2,
+.resume-repeatable-section h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.resume-section > h2 {
+  margin-bottom: 18px;
+}
+
+.resume-repeatable-section__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.resume-table-wrapper {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.resume-data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  background: var(--color-surface);
+}
+
+.resume-data-table__caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.resume-data-table th,
+.resume-data-table td {
+  min-width: 0;
+}
+
+.resume-data-table thead th {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+  box-shadow: inset 0 3px 0 var(--color-primary-bright);
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.resume-data-table thead th + th,
+.resume-data-table tbody td + td {
+  border-left: 1px solid var(--color-border);
+}
+
+.resume-data-table tbody tr + tr td {
+  border-top: 1px solid var(--color-border);
+}
+
+.resume-data-table tbody td {
+  position: relative;
+  padding: 0;
+  background: var(--color-surface);
+  vertical-align: top;
+}
+
+.resume-data-table tbody td > label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.resume-data-table input,
+.resume-data-table select,
+.resume-data-table textarea {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.resume-data-table textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+
+.resume-data-table input:focus,
+.resume-data-table select:focus,
+.resume-data-table textarea:focus {
+  position: relative;
+  z-index: 1;
+  background: var(--color-surface);
+  box-shadow: inset 0 0 0 2px var(--color-primary-bright), 0 0 0 3px var(--color-focus-ring);
+}
+
+.resume-data-table__manage-heading,
+.resume-data-table__manage-cell {
+  width: 88px;
+}
+
+.resume-data-table tbody td.resume-data-table__manage-cell {
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.resume-page button {
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid var(--color-primary);
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.resume-page button:hover {
+  border-color: var(--color-primary-hover);
+  background: var(--color-primary-hover);
+}
+
+.resume-page button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.resume-page .resume-data-table__remove-button {
+  min-height: 36px;
+  padding: 7px 11px;
+  border-color: var(--color-primary-bright);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 13px;
+}
+
+.resume-page .resume-data-table__remove-button:hover {
+  border-color: var(--color-primary);
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
+}
+
+.resume-repeatable-section > p {
+  margin: 14px 0 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.resume-page__feedback {
+  min-height: 0;
+}
+
+.resume-page__feedback p {
+  margin: 0;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.resume-page__feedback [role='alert'] {
+  border: 1px solid #f2b8b8;
+  background: #fff5f5;
+  color: #a53131;
+}
+
+.resume-page__feedback [role='status'] {
+  border: 1px solid #a6d8bc;
+  background: #f1fbf5;
+  color: #257443;
+}
+
+.resume-page__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.resume-page__actions button {
+  min-width: 140px;
+  min-height: 50px;
+  font-size: 16px;
+}
+
+@media (max-width: 760px) {
+  .resume-page {
+    padding: 24px 16px 48px;
+  }
+
+  .resume-page__header,
+  .resume-section,
+  .resume-repeatable-section {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .resume-repeatable-section__heading {
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .resume-table-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-color: var(--color-primary-bright) var(--color-surface-muted);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .resume-data-table--2-columns {
+    min-width: 420px;
+  }
+
+  .resume-data-table--4-columns {
+    min-width: 680px;
+  }
+
+  .resume-data-table--5-columns {
+    min-width: 860px;
+  }
+
+  .resume-data-table--6-columns {
+    min-width: 1020px;
+  }
+
+  .resume-page__actions button {
+    width: 100%;
+  }
+}

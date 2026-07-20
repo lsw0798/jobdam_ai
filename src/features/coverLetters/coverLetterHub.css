@@ -1,0 +1,70 @@
+.cover-letter-intro-page {
+  display: grid;
+  min-height: 65vh;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.cover-letter-intro-card {
+  width: min(100%, 50rem);
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.cover-letter-intro-card h1 {
+  margin: 0 0 1rem;
+  color: var(--color-text);
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.cover-letter-intro-card > p {
+  color: var(--color-text-muted);
+  line-height: 1.75;
+}
+
+.cover-letter-intro-eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--color-primary) !important;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+
+.cover-letter-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.cover-letter-action {
+  display: grid;
+  min-height: 4.25rem;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.cover-letter-action:hover,
+.cover-letter-action:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-border-strong);
+  color: var(--color-text);
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .cover-letter-actions {
+    grid-template-columns: 1fr;
+  }
+}
